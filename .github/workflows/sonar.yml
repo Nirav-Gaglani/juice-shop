@@ -1,0 +1,25 @@
+   name: SonarQube Cloud analysis
+   on:
+     push:
+       branches: [master]
+     workflow_dispatch:
+   jobs:
+     analyze:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v4
+           with:
+             fetch-depth: 0
+         - uses: actions/setup-node@v4
+           with:
+             node-version: 22
+         - run: npm ci
+         - name: Server unit tests with coverage
+           run: npx nyc --reporter=lcov --report-dir=./coverage/server-tests npm run test:server
+           continue-on-error: true
+         - name: API tests with coverage
+           run: npx nyc --reporter=lcov --report-dir=./coverage/api-tests npm run test:api
+           continue-on-error: true
+         - uses: SonarSource/sonarqube-scan-action@v6
+           env:
+             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
