@@ -21,6 +21,6 @@ jobs:
       - name: API tests with coverage
         run: npx nyc --reporter=lcov --report-dir=./coverage/api-tests npm run test:api
         continue-on-error: true
-      - uses: SonarSource/sonarqube-scan-action@v6
+      - uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 #v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
