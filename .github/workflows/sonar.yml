@@ -13,7 +13,7 @@
          - uses: actions/setup-node@v4
            with:
              node-version: 22
-         - run: npm ci
+         - run: npm install
          - name: Server unit tests with coverage
            run: npx nyc --reporter=lcov --report-dir=./coverage/server-tests npm run test:server
            continue-on-error: true
